@@ -1,0 +1,8 @@
+
+*.lock
+
+.idea/
+build/
+
+.idea
+out
