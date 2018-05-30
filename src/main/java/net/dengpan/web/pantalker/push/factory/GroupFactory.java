@@ -46,4 +46,9 @@ public class GroupFactory {
     public static Set<GroupMember> addMembers(Group group, List<User> inserUser) {
         return null;
     }
+
+    public static Group findById(User self, String receiverId) {
+
+        return null;
+    }
 }
