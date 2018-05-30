@@ -1,6 +1,9 @@
 package net.dengpan.web.pantalker.push.factory;
 
 import net.dengpan.web.pantalker.push.bean.db.User;
+import net.dengpan.web.pantalker.push.bean.db.UserFollow;
+
+import java.util.List;
 
 /**
  * 操作用户数据的工厂类
@@ -30,6 +33,30 @@ public class UserFactory {
     }
 
     public static User bindPushId(User self, String pushId) {
+        return null;
+    }
+
+    public static User login(String account, String password) {
+        return null;
+    }
+
+    public static User update(User self) {
+        return null;
+    }
+
+    public static List<User> contacts(User self) {
+        return null;
+    }
+
+    public static User findById(String followId) {
+        return null;
+    }
+
+    public static UserFollow getUserFollow(User self, User user) {
+        return null;
+    }
+
+    public static List<User> search(String name) {
         return null;
     }
 }
