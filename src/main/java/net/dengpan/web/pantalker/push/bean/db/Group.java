@@ -1,5 +1,6 @@
 package net.dengpan.web.pantalker.push.bean.db;
 
+import net.dengpan.web.pantalker.push.bean.api.group.GroupCreateModel;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -61,6 +62,13 @@ public class Group {
     private User owner;
     @Column(nullable = false, updatable = false, insertable = false)
     private String ownerId;
+
+    public Group(User creator, GroupCreateModel model) {
+        this.owner = creator;
+        this.name = model.getName();
+        this.description = model.getDesc();
+        this.picture = model.getPicture();
+    }
 
     public String getId() {
         return id;

@@ -1,6 +1,7 @@
 package net.dengpan.web.pantalker.push.bean.db;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -17,7 +18,13 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "TB_USER_FOLLOW")
 public class UserFollow {
-
+    // 这是一个主键
+    @Id
+    @PrimaryKeyJoinColumn
+    // 主键生成存储的类型为UUID，自动生成UUID
+    @GeneratedValue(generator = "uuid")
+    // 把uuid的生成器定义为uuid2，uuid2是常规的UUID toString
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
     // 定义一个发起人，你关注某人，这里就是你
