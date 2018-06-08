@@ -6,11 +6,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
 import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -27,6 +30,9 @@ import java.time.LocalDateTime;
  * @author pan dengpan
  * @create 2018/5/29
  */
+@Provider
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class GsonProvider<T> implements MessageBodyReader<T>,MessageBodyWriter<T> {
 
     // 共用一个全局的Gson
@@ -35,8 +41,12 @@ public class GsonProvider<T> implements MessageBodyReader<T>,MessageBodyWriter<T
     static {
         GsonBuilder builder = new GsonBuilder()
                 .serializeNulls()
+
+                //仅仅处理带有@Expose 注解的变量
                 .excludeFieldsWithoutExposeAnnotation()
+                //支持map
                 .enableComplexMapKeySerialization();
+        // 添加对Java8LocalDateTime时间类型的支持
         builder.registerTypeAdapter(LocalDateTime.class,new LocalDateTimeConverter());
         gson = builder.create();
 
@@ -69,9 +79,21 @@ public class GsonProvider<T> implements MessageBodyReader<T>,MessageBodyWriter<T
     //把一个T类的实例输出到Http输出流中
     @Override
     public void writeTo(T t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
-        try (JsonWriter jsonWriter = gson.newJsonWriter(new OutputStreamWriter(entityStream, Charset.forName("UTF-8")))) {
-            gson.toJson(t, genericType, jsonWriter);
-            jsonWriter.close();
+//        try (JsonWriter jsonWriter = gson.newJsonWriter(new OutputStreamWriter(entityStream, Charset.forName("UTF-8")))) {
+//            gson.toJson(t, genericType, jsonWriter);
+//            jsonWriter.close();
+//        }
+        OutputStreamWriter writer = new OutputStreamWriter(entityStream,Charset.forName("UTF-8"));
+        try {
+            Type jsonType;
+            if (type.equals(genericType)) {
+                jsonType = type;
+            } else {
+                jsonType = genericType;
+            }
+            getGson().toJson(t, jsonType, writer);
+        } finally {
+            writer.close();
         }
     }
 }

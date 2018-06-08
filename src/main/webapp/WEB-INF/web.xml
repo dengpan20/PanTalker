@@ -16,7 +16,14 @@
             <param-name>javax.ws.rs.Application</param-name>
             <param-value>net.dengpan.web.pantalker.push.Application</param-value>
         </init-param>
-
+        <init-param>
+            <param-name>resteasy.scan.providers</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>resteasy.use.builtin.providers</param-name>
+            <param-value>false</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 

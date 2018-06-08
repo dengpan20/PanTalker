@@ -1,5 +1,6 @@
 package net.dengpan.web.pantalker.push.bean.api.account;
 
+import com.google.gson.annotations.Expose;
 import net.dengpan.web.pantalker.push.bean.card.UserCard;
 import net.dengpan.web.pantalker.push.bean.db.User;
 import sun.dc.pr.PRError;
@@ -11,13 +12,13 @@ import sun.dc.pr.PRError;
  * @create 2018/5/30
  */
 public class AccountRspModel {
-
+    @Expose
     private UserCard user;
-
+    @Expose
     private String account;
-
+    @Expose
     private String token;
-
+    @Expose
     private boolean isBind;
 
     public AccountRspModel(User user) {
@@ -62,5 +63,14 @@ public class AccountRspModel {
 
     public void setBind(boolean bind) {
         isBind = bind;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountRspModel{" +
+                ", account='" + account + '\'' +
+                ", token='" + token + '\'' +
+                ", isBind=" + isBind +
+                '}';
     }
 }

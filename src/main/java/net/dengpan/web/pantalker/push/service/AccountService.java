@@ -1,6 +1,7 @@
 package net.dengpan.web.pantalker.push.service;
 
 import com.google.common.base.Strings;
+import com.sun.org.apache.regexp.internal.RE;
 import net.dengpan.web.pantalker.push.bean.api.account.AccountRspModel;
 import net.dengpan.web.pantalker.push.bean.api.account.LoginModel;
 import net.dengpan.web.pantalker.push.bean.api.account.RegisterModel;
@@ -46,6 +47,7 @@ public class AccountService extends BaseService{
             if(!Strings.isNullOrEmpty(model.getPushId())){
                 return bind(user,model.getPushId());
             }
+//            System.out.print(user.toString());
             AccountRspModel rspModel= new AccountRspModel(user);
             return ResponseModel.buildOk(rspModel);
         }else {

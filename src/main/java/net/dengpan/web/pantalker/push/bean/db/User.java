@@ -207,4 +207,5 @@ public class User implements Principal {
     public void setGroups(Set<Group> groups) {
         this.groups = groups;
     }
+
 }
