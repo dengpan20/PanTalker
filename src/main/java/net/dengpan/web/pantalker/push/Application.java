@@ -1,5 +1,6 @@
 package net.dengpan.web.pantalker.push;
 
+import net.dengpan.web.pantalker.push.provider.AuthRequestFilter;
 import net.dengpan.web.pantalker.push.provider.GsonProvider;
 import net.dengpan.web.pantalker.push.service.AccountService;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -17,6 +18,8 @@ public class Application extends ResourceConfig {
         packages(AccountService.class.getPackage().getName());
         System.out.print(AccountService.class.getPackage().getName());
         register(GsonProvider.class);
+        //注册全局得拦截器
+        register(AuthRequestFilter.class);
 
         register(Logger.class);
     }
