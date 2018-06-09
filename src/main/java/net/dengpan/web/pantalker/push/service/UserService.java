@@ -5,6 +5,8 @@ import net.dengpan.web.pantalker.push.bean.api.base.ResponseModel;
 import net.dengpan.web.pantalker.push.bean.api.user.UpdateInfoModel;
 import net.dengpan.web.pantalker.push.bean.card.UserCard;
 import net.dengpan.web.pantalker.push.bean.db.User;
+import net.dengpan.web.pantalker.push.bean.db.UserFollow;
+import net.dengpan.web.pantalker.push.factory.PushFactory;
 import net.dengpan.web.pantalker.push.factory.UserFactory;
 
 import javax.ws.rs.*;
@@ -72,15 +74,20 @@ public class UserService extends BaseService {
                 Strings.isNullOrEmpty(followId)){
             return ResponseModel.buildParameterError();
         }
-        //TODO 这里可能有一个bug 可能关注的人，我已经关注过了
         User followUser = UserFactory.findById(followId);
         if(followUser== null){
             return ResponseModel.buildServiceError();
         }
+        // 这里可能有一个bug 可能关注的人，我已经关注过了(已经实现)
+        UserFollow userFollow = UserFactory.getUserFollow(self, followUser);
+        if(userFollow == null){
+            return ResponseModel.buildParameterError();
+        }
         //通知我要关注的人，我要关注他
         //给他发送一个我的信息过去
+        // 发送通知
+        PushFactory.pushFollow(followUser,new UserCard(self));
 
-        //TODO 发送通知 未实现
 
         return ResponseModel.buildOk(new UserCard(followUser,true));
     }

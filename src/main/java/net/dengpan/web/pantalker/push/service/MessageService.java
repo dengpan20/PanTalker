@@ -9,6 +9,7 @@ import net.dengpan.web.pantalker.push.bean.db.Message;
 import net.dengpan.web.pantalker.push.bean.db.User;
 import net.dengpan.web.pantalker.push.factory.GroupFactory;
 import net.dengpan.web.pantalker.push.factory.MessageFatory;
+import net.dengpan.web.pantalker.push.factory.PushFactory;
 import net.dengpan.web.pantalker.push.factory.UserFactory;
 
 import javax.ws.rs.Consumes;
@@ -77,12 +78,13 @@ public class MessageService extends BaseService {
     }
 
     //构建一个消息并返回 和通知
-    private ResponseModel<MessageCard> buildAndPushResponse(User self, Message message) {
+    private ResponseModel<MessageCard> buildAndPushResponse(User sender, Message message) {
         if(message == null){
             //储存失败
             return ResponseModel.buildCreateError(ResponseModel.ERROR_CREATE_MESSAGE);
         }
-        //TODO 进行推送消息
+        //进行推送消息
+        PushFactory.pushNewMessage(sender,message);
         return ResponseModel.buildOk(new MessageCard(message));
     }
 }

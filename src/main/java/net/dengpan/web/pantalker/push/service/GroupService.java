@@ -13,6 +13,7 @@ import net.dengpan.web.pantalker.push.bean.db.Group;
 import net.dengpan.web.pantalker.push.bean.db.GroupMember;
 import net.dengpan.web.pantalker.push.bean.db.User;
 import net.dengpan.web.pantalker.push.factory.GroupFactory;
+import net.dengpan.web.pantalker.push.factory.PushFactory;
 import net.dengpan.web.pantalker.push.factory.UserFactory;
 import net.dengpan.web.pantalker.push.provider.LocalDateTimeConverter;
 
@@ -87,7 +88,9 @@ public class GroupService extends BaseService{
         members = members.stream()
                 .filter(groupMember1 -> !groupMember1.getId().equalsIgnoreCase(creatorMember.getId()))
                 .collect(Collectors.toSet());
-        //TODO 推送给各个成员 未实现
+        // 推送给各个成员
+
+        PushFactory.pushJoinGroup(members);
 
         return ResponseModel.buildOk(new GroupCard(creatorMember));
     }
@@ -272,9 +275,10 @@ public class GroupService extends BaseService{
                 .map(GroupMemberCard::new)
                 .collect(Collectors.toList());
 
-        //TODO 通知
         // 1 通知新增群员，你被加入了某群
+        PushFactory.pushJoinGroup(insertMembers);
         // 2 通知老成员，有某某加入了群
+        PushFactory.pushGroupMemberAdd(oldMembers,groupMemberCards);
 
         return ResponseModel.buildOk(groupMemberCards);
     }

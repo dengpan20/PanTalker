@@ -10,6 +10,11 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven{
+        //个推仓库地址
+        name "getui-nexus"
+        url "http://mvn.gt.igexin.com/nexus/content/repositories/releases/"
+    }
 }
 
 dependencies {
@@ -18,6 +23,8 @@ dependencies {
 
     // Gson json
     compile 'com.google.code.gson:gson:2.8.0'
+    //个推依赖
+    compile 'com.gexin.platform:gexin-rp-sdk-http:4.0.1.17'
 
     // Guava java 类封装
     compile 'com.google.guava:guava:21.0'
