@@ -81,8 +81,9 @@ public class UserFactory {
         // 查询的列表不能包括自己
         Hib.queryOnly(session -> {
             List<User> userList=(List<User>) session
-                    .createQuery("from User where lower(pushId)=:pushId")
+                    .createQuery("from User where lower(pushId)=:pushId and id!=:userId")
                     .setParameter("pushId",pushId.toLowerCase())
+                    .setParameter("userId",user.getId())
                     .list();
             for(User u: userList){
                 u.setPushId(null);
@@ -201,6 +202,33 @@ public class UserFactory {
                     .setParameter("name",searchName)
                     .setMaxResults(20)
                    .list();
+        });
+    }
+
+    /**
+     * 一个用户关注另外一个用户
+     * @param self
+     * @param followUser
+     * @param alias 备注 用于后期扩展
+     */
+    public static User follow(User self, User followUser, String alias) {
+        return Hib.query(session -> {
+           session.load(self,self.getId());
+           session.load(followUser,followUser.getId());
+
+           //我关注的人，关注他，同时，他也关注我 需要保存两条信息
+            UserFollow originFollow = new UserFollow();
+            originFollow.setOrigin(self);
+            originFollow.setTarget(followUser);
+            originFollow.setAlias(alias);
+
+            UserFollow targetFollow = new UserFollow();
+            targetFollow.setOrigin(followUser);
+            targetFollow.setTarget(self);
+
+            session.save(originFollow);
+            session.save(targetFollow);
+            return followUser;
         });
     }
 }

@@ -80,8 +80,14 @@ public class UserService extends BaseService {
         }
         // 这里可能有一个bug 可能关注的人，我已经关注过了(已经实现)
         UserFollow userFollow = UserFactory.getUserFollow(self, followUser);
-        if(userFollow == null){
-            return ResponseModel.buildParameterError();
+        //如果存在表示已经关注过了
+        if(userFollow != null){
+            return ResponseModel.buildHadFollowedUserError() ;
+        }
+        //简化：默认单方面只要关注了就可以聊天了 TODO 后续需要同意后才能聊天,默认备注，后期可以扩展
+        User follow = UserFactory.follow(self, followUser, null);
+        if(follow == null){
+            return ResponseModel.buildServiceError();
         }
         //通知我要关注的人，我要关注他
         //给他发送一个我的信息过去

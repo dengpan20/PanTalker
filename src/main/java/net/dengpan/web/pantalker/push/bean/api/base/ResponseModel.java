@@ -45,6 +45,9 @@ public class ResponseModel<M> implements Serializable {
     // 请求参数错误-已存在名称
     public static final int ERROR_PARAMETERS_EXIST_NAME = 4003;
 
+    // 请求参数错误-已经关注过该用户了
+    public static final int ERROR_HAD_FOLLOW_USER = 4004;
+
     // 服务器错误
     public static final int ERROR_SERVICE = 5001;
 
@@ -140,7 +143,9 @@ public class ResponseModel<M> implements Serializable {
     public static <M> ResponseModel<M> buildHaveAccountError() {
         return new ResponseModel<M>(ERROR_PARAMETERS_EXIST_ACCOUNT, "Already have this account.");
     }
-
+    public static <M> ResponseModel<M> buildHadFollowedUserError() {
+        return new ResponseModel<M>(ERROR_HAD_FOLLOW_USER, "Already followed the user..");
+    }
     public static <M> ResponseModel<M> buildHaveNameError() {
         return new ResponseModel<M>(ERROR_PARAMETERS_EXIST_NAME, "Already have this name.");
     }

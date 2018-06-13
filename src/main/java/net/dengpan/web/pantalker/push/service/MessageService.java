@@ -63,9 +63,9 @@ public class MessageService extends BaseService {
     }
     //发送消息到人
     private ResponseModel<MessageCard> pushToUser(User self, MessageCreateModel model) {
-        User receiver =UserFactory.findById(model.getId());
+        User receiver =UserFactory.findById(model.getReceiverId());
         if(receiver ==null){
-            return ResponseModel.buildNotFoundUserError("没找到消息接收者");
+            return ResponseModel.buildNotFoundUserError("Can`t find receiver user");
         }
         //可以考虑可以给自己发送消息
         if (receiver.getId().equalsIgnoreCase(self.getId())) {
