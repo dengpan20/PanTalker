@@ -48,7 +48,7 @@ public class GroupFactory {
         return  Hib.query(session -> (GroupMember)session
         .createQuery("from GroupMember where userId=:userId and groupId=:groupId")
         .setParameter("userId",userId)
-        .setParameter("gropuId",groupId)
+        .setParameter("groupId",groupId)
         .setMaxResults(1)
         .uniqueResult());
     }

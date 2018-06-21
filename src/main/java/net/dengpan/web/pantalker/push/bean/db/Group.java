@@ -63,6 +63,9 @@ public class Group {
     @Column(nullable = false, updatable = false, insertable = false)
     private String ownerId;
 
+    public Group() {
+    }
+
     public Group(User creator, GroupCreateModel model) {
         this.owner = creator;
         this.name = model.getName();

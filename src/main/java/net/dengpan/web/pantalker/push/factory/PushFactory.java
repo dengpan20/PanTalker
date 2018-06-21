@@ -2,6 +2,7 @@ package net.dengpan.web.pantalker.push.factory;
 
 import com.google.common.base.Strings;
 import net.dengpan.web.pantalker.push.bean.api.base.PushModel;
+import net.dengpan.web.pantalker.push.bean.card.GroupCard;
 import net.dengpan.web.pantalker.push.bean.card.GroupMemberCard;
 import net.dengpan.web.pantalker.push.bean.card.MessageCard;
 import net.dengpan.web.pantalker.push.bean.card.UserCard;
@@ -62,8 +63,8 @@ public class PushFactory {
                 return;
             }
 
-            GroupMemberCard memberCard= new GroupMemberCard(member);
-            String entity = TextUtil.toJson(memberCard);
+            GroupCard groupCard= new GroupCard(member);
+            String entity = TextUtil.toJson(groupCard);
 
             PushHistory history = new PushHistory();
             history.setEntityType(PushModel.ENTITY_TYPE_ADD_GROUP);
@@ -76,13 +77,14 @@ public class PushFactory {
             pushModel.add(history.getEntityType(),history.getEntity());
 
             dispatcher.add(receiver,pushModel);
-            dispatcher.submit();
+
         }
         Hib.queryOnly(session -> {
             for (PushHistory history:histories){
                 session.saveOrUpdate(history);
             }
         });
+        dispatcher.submit();
     }
 
     /**
