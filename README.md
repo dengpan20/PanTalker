@@ -1,4 +1,6 @@
 # PanTalker
+
+### 基于Gradle 编译的JAVA WEB 项目
 ### PanTalker_client 的服务器 ，用于提供Android 客户端的服务器,为Pantalker 提供简易的聊天服务
 
 
